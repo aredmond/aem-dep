@@ -18,6 +18,7 @@ suites:
       customize:
         memory: 4096
       network:
+        - ["forwarded_port", {guest: 4502, host: 4502}]
         - ["private_network", {ip: "192.168.34.33"}]
       synced_folders:
         - ["data/aem/author", "/adobe/aem/author", "create: true, owner: 'root', group: 'root'"]
@@ -29,6 +30,7 @@ suites:
       customize:
         memory: 4096
       network:
+        - ["forwarded_port", {guest: 4502, host: 4503}]
         - ["private_network", {ip: "192.168.34.34"}]
       synced_folders:
         - ["data/aem/author", "/adobe/aem/author", "create: true, owner: 'root', group: 'root'"]
@@ -40,6 +42,7 @@ suites:
       customize:
         memory: 4096
       network:
+        - ["forwarded_port", {guest: 4502, host: 4504}]
         - ["private_network", {ip: "192.168.34.35"}]
       synced_folders:
         - ["data/aem/author", "/adobe/aem/author", "create: true, owner: 'root', group: 'root'"]
