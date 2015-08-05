@@ -17,6 +17,7 @@ suites:
       vm_hostname: aem
       customize:
         memory: 4096
+        cpus: 2
       network:
         - ["forwarded_port", {guest: 4502, host: 4502}]
         - ["private_network", {ip: "192.168.34.33"}]
@@ -29,6 +30,7 @@ suites:
       vm_hostname: aem2
       customize:
         memory: 4096
+        cpus: 2
       network:
         - ["forwarded_port", {guest: 4502, host: 4503}]
         - ["private_network", {ip: "192.168.34.34"}]
@@ -41,6 +43,7 @@ suites:
       vm_hostname: aem3
       customize:
         memory: 4096
+        cpus: 2
       network:
         - ["forwarded_port", {guest: 4502, host: 4504}]
         - ["private_network", {ip: "192.168.34.35"}]

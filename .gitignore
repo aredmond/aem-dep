@@ -17,3 +17,6 @@ bin/*
 
 #All Data
 data/*
+
+#All Chef config
+.chef/*

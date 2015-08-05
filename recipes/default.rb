@@ -9,6 +9,23 @@ donthasthegoods = true
 donthasjava = true
 pulljar = true
 
+template '/etc/sysctl.conf' do
+  source 'sysctl.conf.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+end
+
+bash "Set persistence for sysctl" do
+  user "root"
+  group "root"
+  code <<-EOC
+  sysctl -p
+  EOC
+  not_if 'cat /proc/sys/net/ipv6/conf/all/disable_ipv6'
+end
+
+
 if donthasthegoods
   bash "apt-get update" do
     user "root"
@@ -54,23 +71,34 @@ if pulljar
   #  user "root"
   #  cwd "/adobe/aem/author"
   #  code <<-EOH
-  #    wget 249b6ddfccbfcf0fe3cc-085962300bce973d0aa81bf2a0e9961b.r19.cf1.rackcdn.com/aem-author-4502.jar
+  #    wget aem-author-4502.jar
   #  EOH
   #  action :nothing
   #  not_if do ::File.exists?('/adobe/aem/author/aem-author-4502.jar') end
   #end
 
+  bash "Copy_site_content" do
+    user "root"
+    group "root"
+    code <<-EOC
+      cp /adobe/aem/author/aem-author-4502.jar /adobe/aem/publish/aem-publish-4502.jar
+    EOC
+    action :nothing
+    not_if do ::File.exists?('/adobe/aem/publish/aem-publish-4502.jar') end
+  end
+
   %w(
     /adobe
     /adobe/aem
     /adobe/aem/author
+    /adobe/aem/publish
   ).each do |dirpart|
     directory dirpart do
       owner 'root'
       group 'root'
     #  mode '0755'
       action :create
-    #  notifies :run, "bash[pull_jar]", :immediately
+      notifies :run, "bash[Copy_site_content]", :immediately
     end
   end
 
